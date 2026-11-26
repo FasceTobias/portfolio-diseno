@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tobías Fasce · Diseño</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap"
+    />
+    <link rel="stylesheet" href="hark.css" />
+    <link rel="stylesheet" href="hark-hero.css" />
+    <script>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add("x-js");
+        /* failsafe: if the page script never finishes, drop every hidden start state */
+        setTimeout(function () { if (!window.xReady) d.classList.remove("x-js"); }, 2500);
+      })();
+    </script>
+    <style>
+      :root, :root[data-theme] {
+        color-scheme: dark;
+        --x-black: #0d0c0b;
+        --x-paper: #efe9df;
+        --x-accent: #ff4b1f;
+        --fill-primary-on: #0d0c0b;
+        --fill-primary: #efe9df;
+        --text-primary-on: #0d0c0b;
+        --text-primary: #efe9df;
+        --text-secondary: #a9a297;
+        --fill-tertiary: #191715;
+        --stroke-primary: rgb(239 233 223 / 0.24);
+        --stroke-secondary: rgb(239 233 223 / 0.11);
+        --mat-regular: rgb(13 12 11 / 0.72);
+        --sans: "Inter Tight", system-ui, sans-serif;
+        --x-disp: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+        --x-mono: "JetBrains Mono", ui-monospace, monospace;
+        --page-max: 1320px;
+        --x-h: clamp(220px, 22vw, 300px);
+        --x-slow: 1200ms;
+      }
+      html, body { background: var(--x-black); color: var(--text-primary); }
+      body { font-family: var(--sans); }
+      .page { gap: 0; padding-block: 0 32px; }
+      .main { gap: 0; }
+      .x-hero, .x-sec, .x-end, .x-logline-wrap { grid-template-columns: minmax(0, 1fr); }
+      .x-hero > *, .x-sec > *, .x-end > *, .x-rail, .x-film { min-width: 0; max-width: 100%; }
+      .x-film { max-width: none; }
+      html, body { overflow-x: clip; }
+      ::selection { background: var(--x-accent); color: var(--x-black); }
+
+      /* animated background: soft accent glows drifting over the black */
+      .page { position: relative; z-index: 1; }
+      .x-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+      .x-bg i {
+        position: absolute; width: 72vmax; height: 72vmax; border-radius: 50%;
+        background: radial-gradient(closest-side, rgb(255 75 31 / 0.15), rgb(255 75 31 / 0.05) 55%, rgb(255 75 31 / 0) 100%);
+        will-change: transform;
+      }
+      .x-bg i:nth-child(1) { left: -26vmax; top: -30vmax; }
+      .x-bg i:nth-child(2) { right: -30vmax; top: 22vh; width: 60vmax; height: 60vmax; opacity: 0.8; }
+      .x-bg i:nth-child(3) { left: 18vw; bottom: -42vmax; width: 66vmax; height: 66vmax; opacity: 0.7; }
+      .x-bg::after {
+        content: ""; position: absolute; inset: 0;
+        background-image: linear-gradient(rgb(239 233 223 / 0.025) 1px, transparent 1px), linear-gradient(90deg, rgb(239 233 223 / 0.025) 1px, transparent 1px);
+        background-size: 64px 64px;
+        -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000, transparent 75%); mask-image: radial-gradient(ellipse at 50% 40%, #000, transparent 75%);
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .x-bg i:nth-child(1) { animation: x-drift1 34s ease-in-out infinite alternate; }
+        .x-bg i:nth-child(2) { animation: x-drift2 42s ease-in-out infinite alternate; }
+        .x-bg i:nth-child(3) { animation: x-drift3 50s ease-in-out infinite alternate; }
+      }
+      @keyframes x-drift1 { to { transform: translate3d(38vw, 30vh, 0) scale(1.15); } }
+      @keyframes x-drift2 { to { transform: translate3d(-42vw, -18vh, 0) scale(0.9); } }
+      @keyframes x-drift3 { to { transform: translate3d(-24vw, -40vh, 0) scale(1.2); } }
+
+      /* grain */
+      .x-grain {
+        position: fixed; inset: -120px; z-index: 80; pointer-events: none;
+        opacity: 0.08;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .x-grain { animation: x-grain 0.9s steps(5) infinite; }
+      }
+      @keyframes x-grain {
+        0% { transform: translate(0, 0); } 20% { transform: translate(-40px, 22px); } 40% { transform: translate(28px, -36px); }
+        60% { transform: translate(-18px, -12px); } 80% { transform: translate(36px, 30px); } 100% { transform: translate(0, 0); }
+      }
+
+      /* type */
+      .x-mono {
+        margin: 0;
+        font-family: var(--x-mono); font-weight: 400; font-size: 12px; line-height: 1.55;
+        letter-spacing: 0.08em; text-transform: uppercase;
+        color: var(--text-secondary);
+      }
+      .x-mono b { color: var(--x-accent); font-weight: 500; }
+      .x-title {
+        margin: 0;
+        font-family: var(--x-disp); font-weight: 800; text-transform: uppercase;
+        font-size: clamp(56px, 10vw, 140px); line-height: 0.86; letter-spacing: 0;
+        color: var(--text-primary);
+      }
+      .x-title em, .x-logline em { font-style: normal; color: var(--x-accent); }
+      .x-line { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+      .x-line > span { display: inline-block; }
+
+      /* buttons */
+      .x-cta, .x-ghost {
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+        min-height: 48px; padding: 0 22px;
+        border-radius: 2px;
+        font-family: var(--x-mono); font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+        text-decoration: none; cursor: pointer;
+        transition: background-color 500ms var(--ease-out), color 500ms var(--ease-out), border-color 500ms var(--ease-out), translate 500ms var(--ease-out);
+      }
+      .x-cta { background: var(--x-accent); color: var(--x-black); border: 1px solid var(--x-accent); }
+      .x-cta:hover { background: var(--x-paper); border-color: var(--x-paper); }
+      .x-ghost { background: none; border: 1px solid var(--stroke-primary); color: var(--text-primary); }
+      .x-ghost:hover { border-color: var(--x-paper); }
+      .x-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      :is(.x-cta, .x-ghost, .x-more, .x-mail, .x-frame, .x-copy, .x-scroller, .x-marquee, .x-film__track):focus-visible { outline: 2px solid var(--x-accent); outline-offset: 3px; }
+
+      /* hero: opening titles */
+      .x-hero {
+        position: relative;
+        min-height: 100svh;
+        display: grid; grid-template-rows: auto 1fr auto auto auto; gap: clamp(18px, 3vw, 28px);
+        padding-block: 14px clamp(28px, 4vw, 48px);
+      }
+      .x-bar {
+        display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 6px 16px;
+        padding-bottom: 12px; border-bottom: 1px solid var(--stroke-primary);
+      }
+      .x-live { color: var(--x-accent); text-align: right; }
+      @media (max-width: 599px) {
+        .x-bar { grid-template-columns: 1fr auto; }
+        .x-bar > :nth-child(2) { grid-row: 2; }
+      }
+      .x-name {
+        margin: 0; align-self: end;
+        font-family: var(--x-disp); font-weight: 900; text-transform: uppercase;
+        font-size: clamp(100px, 26vw, 290px); line-height: 0.8; letter-spacing: -0.005em;
+      }
+      .x-name .x-line { padding-top: 0.16em; margin-top: -0.16em; }
+      .x-name .x-dot { color: var(--x-accent); }
+      @media (min-width: 700px) { .x-name .x-line + .x-line { padding-left: 0.62em; } }
+      .x-sub { max-width: 62ch; color: var(--text-primary); }
+      .x-sub span { color: var(--text-secondary); }
+
+      /* slanted image strip */
+      .x-film {
+        position: relative;
+        margin: 14px calc(var(--gutter) * -1 - 60px);
+        padding: 12px 0;
+        background: var(--x-accent);
+        rotate: -2.5deg;
+      }
+      .x-film__track {
+        display: flex; gap: 10px;
+        overflow-x: auto; scrollbar-width: none;
+        padding-inline: calc(var(--gutter) + 60px);
+      }
+      .x-film__track::-webkit-scrollbar { display: none; }
+      .x-frame {
+        position: relative; flex: none;
+        padding: 0; border: 0; background: var(--fill-tertiary); cursor: zoom-in;
+        border-radius: 2px; overflow: hidden;
+      }
+      .x-frame img { display: block; height: clamp(150px, 17vw, 230px); width: auto; }
+      .x-frame:hover img { filter: brightness(1.08); }
+
+      /* logline */
+      .x-logline-wrap { padding-block: clamp(80px, 12vw, 170px) 0; display: grid; gap: 28px; }
+      .x-logline {
+        margin: 0; max-width: 17ch;
+        font-family: var(--x-disp); font-weight: 800; text-transform: uppercase;
+        font-size: clamp(46px, 8vw, 118px); line-height: 0.9;
+      }
+      .x-figs { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--text-primary); }
+      .x-figs b { color: var(--x-accent); }
+
+      /* sections and slates */
+      .x-sec { padding-block: clamp(80px, 11vw, 150px) 0; scroll-margin-top: 12px; display: grid; gap: 22px; }
+      .x-slate {
+        display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px;
+        padding-top: 14px; border-top: 1px solid var(--stroke-primary);
+      }
+      .x-slate span:first-child { color: var(--x-accent); }
+      .x-idea { margin: 0; max-width: 72ch; font: var(--type-body); color: var(--text-secondary); }
+      .x-idea b { font-family: var(--x-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--x-accent); margin-right: 6px; }
+      .x-idea b + span + b { margin-left: 10px; }
+      .x-brandline { display: flex; align-items: center; gap: 14px; }
+      .x-mark { width: 40px; height: 40px; display: block; flex: none; }
+
+      /* auto-sliding rows: full bleed, swipe or drag, loop seamlessly */
+      .x-rail { position: relative; }
+      .x-scroller {
+        display: flex; gap: 12px; align-items: flex-start;
+        overflow-x: auto; scrollbar-width: none;
+        padding-block: 4px;
+      }
+      .x-scroller::-webkit-scrollbar { display: none; }
+      .x-scroller, .x-marquee, .x-film__track { cursor: grab; -webkit-user-select: none; user-select: none; overscroll-behavior-x: contain; }
+      .x-scroller img, .x-marquee img, .x-film__track img { -webkit-user-drag: none; }
+      .x-dragging, .x-dragging * { cursor: grabbing !important; }
+      @media (max-width: 599px) {
+        .x-scroller { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+        :root, :root[data-theme] { --x-h: 230px; }
+      }
+      .x-piece { margin: 0; display: grid; gap: 8px; flex: none; }
+      .x-piece button {
+        display: block; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 2px;
+        transition: translate 800ms var(--ease-out);
+      }
+      .x-piece button:hover { translate: 0 -3px; }
+      .x-piece button:focus-visible { outline: 2px solid var(--x-accent); outline-offset: 3px; }
+      .x-piece img { display: block; height: var(--x-h); width: auto; border-radius: 2px; background: var(--fill-tertiary); }
+      .x-piece figcaption { font-family: var(--x-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); white-space: nowrap; }
+      .x-piece figcaption b { color: var(--x-accent); font-weight: 500; }
+      .x-piece--wide img { height: auto; width: min(calc(var(--x-h) * var(--r)), 84vw); }
+
+      /* carousel strip */
+      .x-marquee {
+        display: flex; gap: 12px;
+        overflow-x: auto; scrollbar-width: none;
+        margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter);
+      }
+      .x-marquee::-webkit-scrollbar { display: none; }
+      .x-marquee .x-piece img { height: 240px; }
+      @media (max-width: 599px) { .x-marquee .x-piece img { height: 180px; } }
+
+      /* process */
+      .x-how {
+        list-style: none; margin: 0; padding: 0;
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 48px);
+      }
+      .x-how li { display: grid; align-content: start; gap: 10px; padding-top: 16px; border-top: 1px solid var(--stroke-secondary); }
+      .x-how h3, .x-pack h3 { margin: 0; font-family: var(--x-disp); font-weight: 800; text-transform: uppercase; font-size: clamp(34px, 3.4vw, 46px); line-height: 0.92; }
+      .x-how p:not(.x-mono), .x-pack p:not(.x-mono) { margin: 0; font: var(--type-body); color: var(--text-secondary); max-width: 34ch; }
+
+      /* services */
+      .x-packs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+      .x-pack {
+        display: grid; grid-template-rows: auto auto 1fr auto; gap: 10px;
+        padding: clamp(20px, 2.4vw, 28px);
+        border-radius: 2px; border: 1px solid var(--stroke-secondary);
+        background: var(--fill-tertiary);
+      }
+      .x-pack--ia { border-color: var(--x-accent); }
+      .x-more {
+        justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: var(--tap); margin-top: 6px;
+        font-family: var(--x-mono); font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+        color: var(--x-accent); text-decoration: none;
+      }
+      .x-more span { transition: translate 500ms var(--ease-out); }
+      .x-more:hover span { translate: 4px 0; }
+      @media (max-width: 999px) { .x-packs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      @media (max-width: 759px) {
+        .x-how, .x-packs { grid-template-columns: 1fr; }
+      }
+
+      /* contact */
+      .x-end { padding-block: clamp(110px, 16vw, 220px) clamp(40px, 6vw, 80px); display: grid; justify-items: center; gap: clamp(36px, 5vw, 64px); text-align: center; }
+      .x-end .x-title { font-size: clamp(54px, 13vw, 190px); font-weight: 900; }
+      .x-credits { margin: 0; display: grid; gap: 18px; width: min(100%, 720px); }
+      .x-credits > div { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+      .x-credits dt { text-align: right; }
+      .x-credits dd { margin: 0; text-align: left; font: var(--type-body-strong); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
+      @media (max-width: 599px) {
+        .x-credits > div { grid-template-columns: 1fr; gap: 2px; justify-items: center; }
+        .x-credits dt, .x-credits dd { text-align: center; justify-content: center; }
+      }
+      .x-mail { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--text-primary); text-decoration: underline; text-decoration-color: var(--stroke-primary); text-underline-offset: 6px; }
+      .x-mail:hover { text-decoration-color: var(--x-accent); }
+      .x-copy {
+        min-height: var(--tap); padding: 0 12px; border-radius: 2px;
+        border: 1px solid var(--stroke-primary); background: none; color: var(--text-secondary); cursor: pointer;
+        font-family: var(--x-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+      }
+      .x-copy:hover { color: var(--text-primary); border-color: var(--x-paper); }
+      .x-disclaimer { max-width: 56ch; margin: 0; font: var(--type-small); color: var(--text-secondary); }
+      .x-base { color: var(--text-primary); }
+
+      /* toast */
+      .x-toast {
+        position: fixed; left: 50%; bottom: 24px; z-index: 95; translate: -50% 12px;
+        padding: 10px 18px; border-radius: 2px;
+        background: var(--x-accent); color: var(--x-black);
+        font-family: var(--x-mono); font-size: 13px; font-weight: 500; letter-spacing: 0.1em;
+        opacity: 0; pointer-events: none;
+        transition: opacity 300ms var(--ease-out), translate 300ms var(--ease-out);
+      }
+      .x-toast.is-on { opacity: 1; translate: -50% 0; }
+
+      /* lightbox */
+      .x-lightbox {
+        max-width: none; max-height: none; width: 100vw; height: 100dvh;
+        margin: 0; padding: 0; border: 0;
+        background: rgb(13 12 11 / 0.97); color: var(--text-primary);
+      }
+      .x-lightbox[open] { display: grid; place-items: center; }
+      .x-lightbox::backdrop { background: transparent; }
+      .x-lightbox__stage { display: grid; gap: 12px; justify-items: center; padding: 64px var(--gutter) 32px; }
+      .x-lightbox__stage img { max-width: min(92vw, 1200px); max-height: calc(100dvh - 140px); width: auto; height: auto; border-radius: 2px; }
+      .x-lightbox__cap { text-align: center; }
+      .x-lightbox__close {
+        position: fixed; top: 16px; right: 16px;
+        width: var(--tap); height: var(--tap); border-radius: 2px;
+        border: 1px solid var(--stroke-primary); background: var(--fill-tertiary); color: var(--text-primary);
+        font: var(--type-heading); cursor: pointer;
+      }
+      .x-lightbox__close:focus-visible { outline: 2px solid var(--x-accent); outline-offset: 2px; }
+
+      /* motion, only when allowed and only once the script runs */
+      @media (prefers-reduced-motion: no-preference) {
+        .x-js .x-hero .x-line > span { animation: x-maskup 1300ms var(--ease-out) 150ms both; }
+        .x-js .x-hero .x-line + .x-line > span { animation-delay: 300ms; }
+        .x-js .x-hero__fade { animation: x-fadeup 1100ms var(--ease-out) 600ms both; }
+        .x-js .x-film { animation: x-fadeup 1200ms var(--ease-out) 800ms both; }
+        .x-live i { animation: x-blink 1.6s steps(1) infinite; }
+        .x-js .x-reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--x-slow) var(--ease-out), transform var(--x-slow) var(--ease-out); }
+        .x-js .x-reveal.is-in { opacity: 1; transform: none; }
+        .x-js .x-reveal .x-line > span { transform: translateY(110%); transition: transform 1300ms var(--ease-out) 120ms; }
+        .x-js .x-reveal .x-line + .x-line > span { transition-delay: 260ms; }
+        .x-js .x-reveal.is-in .x-line > span { transform: none; }
+        .x-js .x-rail.x-reveal { transform: none; }
+        .x-js .x-rail .x-piece { opacity: 0; translate: 0 14px; transition: opacity 1000ms var(--ease-out), translate 1000ms var(--ease-out); transition-delay: calc(var(--k, 0) * 80ms); }
+        .x-js .x-rail.is-in .x-piece { opacity: 1; translate: 0 0; }
+        .x-js .x-stagger > * { opacity: 0; translate: 0 16px; transition: opacity 1100ms var(--ease-out), translate 1100ms var(--ease-out); }
+        .x-js .x-stagger > :nth-child(2) { transition-delay: 140ms; }
+        .x-js .x-stagger > :nth-child(3) { transition-delay: 280ms; }
+        .x-js .x-stagger > :nth-child(4) { transition-delay: 420ms; }
+        .x-js .x-stagger.is-in > * { opacity: 1; translate: 0 0; }
+        .x-lightbox[open] { animation: x-fade 400ms var(--ease-out); }
+        .x-lightbox[open] img { animation: x-rise 500ms var(--ease-out); }
+      }
+      @keyframes x-maskup { from { transform: translateY(110%); } }
+      @keyframes x-fadeup { from { opacity: 0; transform: translateY(12px); } }
+      @keyframes x-blink { 50% { opacity: 0.2; } }
+      @keyframes x-fade { from { opacity: 0; } }
+      @keyframes x-rise { from { opacity: 0; transform: translateY(12px) scale(0.99); } }
+      html.lenis, html.lenis body { height: auto; }
+      .lenis.lenis-smooth { scroll-behavior: auto !important; }
+      .lenis.lenis-stopped { overflow: hidden; }
+      @media (prefers-reduced-motion: reduce) {
+        .x-piece button, .x-cta, .x-ghost, .x-more span { transition: none; }
+        .x-piece button:hover, .x-more:hover span { translate: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="x-bg" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="x-grain" aria-hidden="true"></div>
+    <div class="page" id="top">
+      <main class="main">
+        <section class="x-hero" aria-labelledby="hero-title">
+          <div class="x-bar x-hero__fade">
+            <p class="x-mono" style="color: var(--text-primary)">TOBÍAS FASCE · DISEÑO</p>
+            <p class="x-mono">BUENOS AIRES, AR</p>
+            <p class="x-mono x-live"><i aria-hidden="true" style="font-style: normal">●</i> DISPONIBLE</p>
+          </div>
+          <h1 class="x-name" id="hero-title"><span class="x-line"><span>Tobías</span></span><span class="x-line"><span>Fasce<span class="x-dot">.</span></span></span></h1>
+          <p class="x-mono x-sub x-hero__fade">Diseño de creativos para marcas <b>—</b> <span>Anuncios · Historias · Reels · Carruseles</span></p>
+          <div class="x-film" role="group" aria-label="Piezas destacadas">
+            <div class="x-film__track" tabindex="0">
+              <button class="x-frame" type="button"><img src="doc-ad-2.jpg" alt="DOC Café, anuncio para Meta" width="720" height="900" /></button>
+              <button class="x-frame" type="button"><img src="ac-story-1.jpg" alt="Animal Cycles, historia" width="506" height="900" /></button>
+              <button class="x-frame" type="button"><img src="crema-ad-2.jpg" alt="LEVE, anuncio para Meta" width="720" height="900" /></button>
+              <button class="x-frame" type="button"><img src="doc-tiktok-1-v2.jpg" alt="DOC Café, cuadro de reel" width="506" height="900" /></button>
+              <button class="x-frame" type="button"><img src="ac-ad-2.jpg" alt="Animal Cycles, anuncio para Meta" width="720" height="900" /></button>
+              <button class="x-frame" type="button"><img src="crema-story-2.jpg" alt="LEVE, historia" width="506" height="900" /></button>
+              <button class="x-frame" type="button"><img src="doc-comparativa-v2.jpg" alt="DOC Café, comparativa" width="720" height="900" /></button>
+              <button class="x-frame" type="button"><img src="ac-tiktok-2-v2.jpg" alt="Animal Cycles, cuadro de reel" width="506" height="900" /></button>
+              <button class="x-frame" type="button"><img src="crema-antes-despues-v2.jpg" alt="LEVE, antes y después" width="720" height="900" /></button>
+              <button class="x-frame" type="button"><img src="ac-ad-1.jpg" alt="Animal Cycles, anuncio para Meta" width="720" height="900" /></button>
+            </div>
+          </div>
+          <div class="x-actions x-hero__fade">
+            <a class="x-cta" href="#trabajos">Ver trabajos</a>
+            <a class="x-ghost" href="#contacto">Contacto</a>
+          </div>
+        </section>
+
+        <section class="x-logline-wrap x-reveal" aria-label="Qué hago">
+          <p class="x-mono"><b>●</b> Qué hago</p>
+          <p class="x-logline">Diseño anuncios con look <em>premium</em> que venden.</p>
+          <p class="x-mono x-figs"><span><b>3</b> marcas de muestra</span><span><b>·</b></span><span><b>6</b> formatos ganadores</span><span><b>·</b></span><span><b>+40</b> piezas</span></p>
+        </section>
+
+        <section class="x-sec" id="trabajos" aria-labelledby="doc-title">
+          <div class="x-slate x-mono x-reveal"><span>Proyecto 01</span><span>Café de especialidad — Villa Crespo</span><span>Pack 01 · 12 piezas</span></div>
+          <h2 class="x-title x-reveal" id="doc-title"><span class="x-line"><span>DOC Café</span></span></h2>
+          <p class="x-idea x-reveal"><b>Objetivo</b><span>que un café de barrio se vea de especialidad.</span> <b>Propuesta</b><span>cada taza fotografiada en detalle, con luz cálida: anuncios para Meta, historias, flyer y respuesta directa.</span></p>
+          <div class="x-rail x-reveal">
+            <div class="x-scroller" tabindex="0" aria-label="Piezas de DOC Café">
+              <figure class="x-piece"><button type="button"><img src="doc-ad-1.jpg" alt="DOC Café, anuncio para Meta 1" width="720" height="900" loading="lazy" /></button><figcaption><b>01</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-ad-2.jpg" alt="DOC Café, anuncio para Meta 2" width="720" height="900" loading="lazy" /></button><figcaption><b>02</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-ad-3.jpg" alt="DOC Café, anuncio para Meta 3" width="720" height="900" loading="lazy" /></button><figcaption><b>03</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-story-1.jpg" alt="DOC Café, historia 1" width="506" height="900" loading="lazy" /></button><figcaption><b>04</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-story-2.jpg" alt="DOC Café, historia 2" width="506" height="900" loading="lazy" /></button><figcaption><b>05</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-story-3.jpg" alt="DOC Café, historia 3" width="506" height="900" loading="lazy" /></button><figcaption><b>06</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-antes-despues-v2.jpg" alt="DOC Café, antes y después" width="720" height="900" loading="lazy" /></button><figcaption><b>07</b> Antes y después</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-comparativa-v2.jpg" alt="DOC Café, comparativa" width="720" height="900" loading="lazy" /></button><figcaption><b>08</b> Comparativa</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-tiktok-1-v2.jpg" alt="DOC Café, cuadro de reel 1" width="506" height="900" loading="lazy" /></button><figcaption><b>09</b> Reel</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-tiktok-2-v2.jpg" alt="DOC Café, cuadro de reel 2" width="506" height="900" loading="lazy" /></button><figcaption><b>10</b> Reel</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-tiktok-guion-v2.jpg" alt="DOC Café, storyboard de reel de 15 s" width="506" height="900" loading="lazy" /></button><figcaption><b>11</b> Storyboard 15 s</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-flyer.jpg" alt="DOC Café, flyer A5" width="634" height="900" loading="lazy" /></button><figcaption><b>12</b> Flyer A5</figcaption></figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="x-sec" id="animal" aria-labelledby="animal-title">
+          <div class="x-slate x-mono x-reveal"><span>Proyecto 02</span><span>Taller de bicis a medida — Colegiales</span><span>Pack 02 · 12 piezas</span></div>
+          <h2 class="x-title x-reveal" id="animal-title"><span class="x-line"><span>Animal Cycles</span></span></h2>
+          <p class="x-idea x-reveal"><b>Objetivo</b><span>destacar bicis a medida en un feed lleno de ruido.</span> <b>Propuesta</b><span>fotos nocturnas con mucho carácter y el oficio del taller al frente: anuncios para Meta, historias, flyer y respuesta directa.</span></p>
+          <div class="x-rail x-reveal">
+            <div class="x-scroller" tabindex="0" aria-label="Piezas de Animal Cycles">
+              <figure class="x-piece"><button type="button"><img src="ac-ad-1.jpg" alt="Animal Cycles, anuncio para Meta 1" width="720" height="900" loading="lazy" /></button><figcaption><b>01</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-ad-2.jpg" alt="Animal Cycles, anuncio para Meta 2" width="720" height="900" loading="lazy" /></button><figcaption><b>02</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-ad-3.jpg" alt="Animal Cycles, anuncio para Meta 3" width="720" height="900" loading="lazy" /></button><figcaption><b>03</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-story-1.jpg" alt="Animal Cycles, historia 1" width="506" height="900" loading="lazy" /></button><figcaption><b>04</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-story-2.jpg" alt="Animal Cycles, historia 2" width="506" height="900" loading="lazy" /></button><figcaption><b>05</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-story-3.jpg" alt="Animal Cycles, historia 3" width="506" height="900" loading="lazy" /></button><figcaption><b>06</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-antes-despues-v2.jpg" alt="Animal Cycles, antes y después" width="720" height="900" loading="lazy" /></button><figcaption><b>07</b> Antes y después</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-comparativa-v2.jpg" alt="Animal Cycles, comparativa" width="720" height="900" loading="lazy" /></button><figcaption><b>08</b> Comparativa</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-tiktok-1-v2.jpg" alt="Animal Cycles, cuadro de reel 1" width="506" height="900" loading="lazy" /></button><figcaption><b>09</b> Reel</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-tiktok-2-v2.jpg" alt="Animal Cycles, cuadro de reel 2" width="506" height="900" loading="lazy" /></button><figcaption><b>10</b> Reel</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-tiktok-guion-v2.jpg" alt="Animal Cycles, storyboard de reel de 15 s" width="506" height="900" loading="lazy" /></button><figcaption><b>11</b> Storyboard 15 s</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-flyer.jpg" alt="Animal Cycles, flyer A5" width="634" height="900" loading="lazy" /></button><figcaption><b>12</b> Flyer A5</figcaption></figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="x-sec" id="leve" aria-labelledby="leve-title">
+          <div class="x-slate x-mono x-reveal"><span>Proyecto 03</span><span>Cuidado facial — Venta online</span><span>Pack 03 · 9 piezas</span></div>
+          <h2 class="x-title x-reveal" id="leve-title"><span class="x-line"><span>LEVE</span></span></h2>
+          <p class="x-idea x-reveal"><b>Objetivo</b><span>que una crema más se note en la tienda online.</span> <b>Propuesta</b><span>textura y piel bien de cerca, con luz suave de estudio.</span></p>
+          <div class="x-rail x-reveal">
+            <div class="x-scroller" tabindex="0" aria-label="Piezas de LEVE">
+              <figure class="x-piece"><button type="button"><img src="crema-ad-1.jpg" alt="LEVE, anuncio para Meta 1" width="720" height="900" loading="lazy" /></button><figcaption><b>01</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-ad-2.jpg" alt="LEVE, anuncio para Meta 2" width="720" height="900" loading="lazy" /></button><figcaption><b>02</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-ad-3.jpg" alt="LEVE, anuncio para Meta 3" width="720" height="900" loading="lazy" /></button><figcaption><b>03</b> Anuncio</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-story-1.jpg" alt="LEVE, historia 1" width="506" height="900" loading="lazy" /></button><figcaption><b>04</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-story-2.jpg" alt="LEVE, historia 2" width="506" height="900" loading="lazy" /></button><figcaption><b>05</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-story-3.jpg" alt="LEVE, historia 3" width="506" height="900" loading="lazy" /></button><figcaption><b>06</b> Historia</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-antes-despues-v2.jpg" alt="LEVE, antes y después" width="720" height="900" loading="lazy" /></button><figcaption><b>07</b> Antes y después</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-comparativa-v2.jpg" alt="LEVE, comparativa" width="720" height="900" loading="lazy" /></button><figcaption><b>08</b> Comparativa</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-tiktok-1-v2.jpg" alt="LEVE, cuadro de reel" width="506" height="900" loading="lazy" /></button><figcaption><b>09</b> Reel</figcaption></figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="x-sec" id="formatos" aria-labelledby="formatos-title">
+          <div class="x-slate x-mono x-reveal"><span>Serie 04</span><span>Meta · TikTok</span><span>16 piezas</span></div>
+          <h2 class="x-title x-reveal" id="formatos-title"><span class="x-line"><span>Formatos</span></span><span class="x-line"><span><em>ganadores</em></span></span></h2>
+          <p class="x-idea x-reveal">Seis formatos elegidos a partir de estudios de anuncios de Meta y TikTok, aplicados a DOC Café, Animal Cycles y LEVE.</p>
+          <div class="x-rail x-reveal">
+            <div class="x-scroller" tabindex="0" aria-label="Formatos ganadores">
+              <figure class="x-piece"><button type="button"><img src="doc-g-01-detras-de-escena.jpg" alt="Detrás de escena para DOC Café" width="506" height="900" loading="lazy" /></button><figcaption><b>01</b> Detrás de escena · DOC</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-g-01-detras-de-escena.jpg" alt="Detrás de escena para Animal Cycles" width="506" height="900" loading="lazy" /></button><figcaption><b>01</b> Detrás de escena · Animal</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-g-01-detras-de-escena.jpg" alt="Detrás de escena para LEVE" width="506" height="900" loading="lazy" /></button><figcaption><b>01</b> Detrás de escena · LEVE</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-g-02-carta.jpg" alt="Carta con post-it para DOC Café" width="720" height="900" loading="lazy" /></button><figcaption><b>02</b> Carta con post-it · DOC</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-g-02-carta.jpg" alt="Carta con post-it para Animal Cycles" width="720" height="900" loading="lazy" /></button><figcaption><b>02</b> Carta con post-it · Animal</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-g-03-pieza-por-pieza.jpg" alt="Producto con flechas para DOC Café" width="720" height="900" loading="lazy" /></button><figcaption><b>03</b> Producto con flechas · DOC</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-g-03-pieza-por-pieza.jpg" alt="Producto con flechas para Animal Cycles" width="720" height="900" loading="lazy" /></button><figcaption><b>03</b> Producto con flechas · Animal</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-g-03-pieza-por-pieza.jpg" alt="Producto con flechas para LEVE" width="720" height="900" loading="lazy" /></button><figcaption><b>03</b> Producto con flechas · LEVE</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-g-04-notas.jpg" alt="Captura de notas para DOC Café" width="506" height="900" loading="lazy" /></button><figcaption><b>04</b> Captura de notas · DOC</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-g-04-notas.jpg" alt="Captura de notas para Animal Cycles" width="506" height="900" loading="lazy" /></button><figcaption><b>04</b> Captura de notas · Animal</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-g-05-resenas.jpg" alt="Muro de reseñas para DOC Café" width="720" height="900" loading="lazy" /></button><figcaption><b>05</b> Muro de reseñas · DOC</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-g-05-resenas.jpg" alt="Muro de reseñas para Animal Cycles" width="720" height="900" loading="lazy" /></button><figcaption><b>05</b> Muro de reseñas · Animal</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-g-05-resenas.jpg" alt="Muro de reseñas para LEVE" width="720" height="900" loading="lazy" /></button><figcaption><b>05</b> Muro de reseñas · LEVE</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="doc-g-06-asmr.jpg" alt="ASMR para DOC Café" width="506" height="900" loading="lazy" /></button><figcaption><b>06</b> ASMR · DOC</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="ac-g-06-asmr.jpg" alt="ASMR para Animal Cycles" width="506" height="900" loading="lazy" /></button><figcaption><b>06</b> ASMR · Animal</figcaption></figure>
+              <figure class="x-piece"><button type="button"><img src="crema-g-06-asmr.jpg" alt="ASMR para LEVE" width="506" height="900" loading="lazy" /></button><figcaption><b>06</b> ASMR · LEVE</figcaption></figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="x-sec" id="carruseles" aria-labelledby="carruseles-title">
+          <div class="x-slate x-mono x-reveal"><span>Serie 05</span><span>Instagram · Distintos rubros</span><span>12 slides</span></div>
+          <h2 class="x-title x-reveal" id="carruseles-title"><span class="x-line"><span>Carruseles</span></span></h2>
+          <div class="x-marquee x-reveal" aria-label="Slides de carruseles de Instagram para distintos rubros" tabindex="0">
+            <figure class="x-piece"><button type="button"><img src="01-patanel-1.jpg" alt="Slide de carrusel 01" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="02-halalfriends-3.jpg" alt="Slide de carrusel 02" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="03-moreno-2.jpg" alt="Slide de carrusel 03" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="04-colette-1.jpg" alt="Slide de carrusel 04" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="05-cuore-2.jpg" alt="Slide de carrusel 05" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="06-dongato-2.jpg" alt="Slide de carrusel 06" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="07-anitamiro-1.jpg" alt="Slide de carrusel 07" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="08-elsur-5.jpg" alt="Slide de carrusel 08" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="09-soledad-4.jpg" alt="Slide de carrusel 09" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="10-companiadeflores-3.jpg" alt="Slide de carrusel 10" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="11-loartesanal-3.jpg" alt="Slide de carrusel 11" width="720" height="900" loading="lazy" /></button></figure>
+            <figure class="x-piece"><button type="button"><img src="12-lapianca-2.jpg" alt="Slide de carrusel 12" width="720" height="900" loading="lazy" /></button></figure>
+          </div>
+        </section>
+
+        <section class="x-sec" id="identidad" aria-labelledby="identidad-title">
+          <div class="x-slate x-mono x-reveal"><span>Serie 06</span><span>Identidad de marca</span><span>3 piezas</span></div>
+          <h2 class="x-title x-reveal" id="identidad-title"><span class="x-line"><span>Fasce Group</span></span></h2>
+          <p class="x-idea x-brandline x-reveal"><img class="x-mark" src="fasce-isotipo-final-web.png" alt="Isotipo de Fasce Group" width="860" height="860" loading="lazy" /><span>Logo, paleta, personajes, stickers y portadas.</span></p>
+          <div class="x-rail x-reveal">
+            <div class="x-scroller" tabindex="0" aria-label="Identidad de Fasce Group">
+              <figure class="x-piece x-piece--wide" style="--r: 1.791"><button type="button"><img src="fasce-branding-board-v2-web.jpg" alt="Tablero de identidad de Fasce Group" width="1200" height="670" loading="lazy" /></button><figcaption><b>01</b> Tablero de marca</figcaption></figure>
+              <figure class="x-piece x-piece--wide" style="--r: 2.715"><button type="button"><img src="fasce-banner-web.jpg" alt="Banner de Fasce Group" width="1200" height="442" loading="lazy" /></button><figcaption><b>02</b> Banner</figcaption></figure>
+              <figure class="x-piece x-piece--wide" style="--r: 1.5"><button type="button"><img src="fasce-stickers-colores-preview-web.jpg" alt="Stickers de Fasce Group" width="1200" height="800" loading="lazy" /></button><figcaption><b>03</b> Stickers</figcaption></figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="x-sec" id="proceso" aria-labelledby="proceso-title">
+          <div class="x-slate x-mono x-reveal"><span>Cómo trabajo</span><span>3 pasos</span></div>
+          <h2 class="x-title x-reveal" id="proceso-title"><span class="x-line"><span>Proceso</span></span></h2>
+          <ol class="x-how x-stagger x-reveal">
+            <li><p class="x-mono"><b>01</b> — Paso uno</p><h3>Análisis</h3><p>Estudio tu negocio, tu público y qué funciona en tu rubro.</p></li>
+            <li><p class="x-mono"><b>02</b> — Paso dos</p><h3>Diseño</h3><p>Armo anuncios, historias y carruseles con look premium.</p></li>
+            <li><p class="x-mono"><b>03</b> — Paso tres</p><h3>Entrega</h3><p>Te entrego todo en formato para Instagram, Meta y TikTok.</p></li>
+          </ol>
+        </section>
+
+        <section class="x-sec" id="servicios" aria-labelledby="servicios-title">
+          <div class="x-slate x-mono x-reveal"><span>Packs</span><span>4 servicios</span></div>
+          <h2 class="x-title x-reveal" id="servicios-title"><span class="x-line"><span>Servicios</span></span></h2>
+          <div class="x-packs x-stagger x-reveal">
+            <article class="x-pack"><p class="x-mono"><b>A</b> — Para empezar</p><h3>Arranque</h3><p>3 anuncios + 3 historias.</p><a class="x-more" href="https://wa.me/5491160331192?text=Hola%2C%20quiero%20el%20pack%20Arranque" target="_blank" rel="noopener" aria-label="Consultar por el pack Arranque">Consultar <span aria-hidden="true">→</span></a></article>
+            <article class="x-pack"><p class="x-mono"><b>B</b> — Todo el set</p><h3>Completo</h3><p>Anuncios, historias, carrusel, antes y después y comparativa.</p><a class="x-more" href="https://wa.me/5491160331192?text=Hola%2C%20quiero%20el%20pack%20Completo" target="_blank" rel="noopener" aria-label="Consultar por el pack Completo">Consultar <span aria-hidden="true">→</span></a></article>
+            <article class="x-pack"><p class="x-mono"><b>C</b> — Cada mes</p><h3>Mensual</h3><p>Piezas nuevas cada mes según lo que rinde.</p><a class="x-more" href="https://wa.me/5491160331192?text=Hola%2C%20quiero%20el%20pack%20Mensual" target="_blank" rel="noopener" aria-label="Consultar por el pack Mensual">Consultar <span aria-hidden="true">→</span></a></article>
+            <article class="x-pack x-pack--ia"><p class="x-mono"><b>●</b> — Nuevo</p><h3>Videos con IA</h3><p>Videos hiperrealistas para anuncios y reels. Escribime y te mando ejemplos por privado.</p><a class="x-more" href="https://wa.me/5491160331192?text=Quiero%20verlos" target="_blank" rel="noopener">Quiero verlos <span aria-hidden="true">→</span></a></article>
+          </div>
+        </section>
+
+        <section class="x-end" id="contacto" aria-labelledby="contacto-title">
+          <p class="x-mono x-reveal"><b>●</b> Contacto</p>
+          <h2 class="x-title x-reveal" id="contacto-title"><span class="x-line"><span>¿Trabajamos</span></span><span class="x-line"><span><em>juntos?</em></span></span></h2>
+          <dl class="x-credits x-reveal">
+            <div><dt class="x-mono">Email</dt><dd><a class="x-mail" href="mailto:tobiasfasce@gmail.com">tobiasfasce@gmail.com</a><button class="x-copy" type="button" data-copy="tobiasfasce@gmail.com">Copiar</button></dd></div>
+            <div><dt class="x-mono">WhatsApp</dt><dd><a class="x-mail" href="https://wa.me/5491160331192?text=Hola%2C%20quiero%20una%20muestra" target="_blank" rel="noopener">+54 11 6033-1192</a></dd></div>
+            <div><dt class="x-mono">Dónde</dt><dd class="x-base">Buenos Aires · Remoto</dd></div>
+          </dl>
+          <div class="x-actions x-reveal" style="justify-content: center">
+            <a class="x-cta" href="https://wa.me/5491160331192?text=Hola%2C%20quiero%20una%20muestra" target="_blank" rel="noopener">Pedí tu muestra</a>
+          </div>
+          <p class="x-disclaimer x-reveal">Las piezas de DOC Café, Animal Cycles y LEVE son propuestas de muestra, no trabajos contratados. Fotos generadas con IA.</p>
+        </section>
+      </main>
+      <footer class="foot">
+        <p>Tobías Fasce · Diseño · Buenos Aires</p>
+        
+      </footer>
+    </div>
+
+    <dialog class="x-lightbox" id="lightbox" aria-label="Pieza ampliada">
+      <button class="x-lightbox__close" type="button" aria-label="Cerrar">×</button>
+      <div class="x-lightbox__stage"><p class="x-mono x-lightbox__cap"></p></div>
+    </dialog>
+    <div class="x-toast" role="status" aria-live="polite"></div>
+
+    <script src="hark.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+      (function () {
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var fine = !reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+        /* stagger index for reel items */
+        [].forEach.call(document.querySelectorAll(".x-rail"), function (r) {
+          [].forEach.call(r.querySelectorAll(".x-piece"), function (f, k) { f.style.setProperty("--k", Math.min(k, 8)); });
+        });
+
+        /* Lenis smooth scroll, when it loaded */
+        var lenis = null;
+        if (!reduce && typeof window.Lenis === "function") {
+          try {
+            lenis = new window.Lenis({ lerp: 0.08 });
+            var lraf = function (t) { lenis.raf(t); requestAnimationFrame(lraf); };
+            requestAnimationFrame(lraf);
+            document.addEventListener("click", function (e) {
+              var a = e.target.closest('a[href^="#"]');
+              if (!a) return;
+              var id = a.getAttribute("href");
+              if (id.length < 2) return;
+              var t = id === "#top" ? 0 : document.querySelector(id);
+              if (t === null) return;
+              e.preventDefault();
+              lenis.scrollTo(t, { offset: -12 });
+            });
+          } catch (err) { lenis = null; }
+        }
+
+        /* mask reveals */
+        var items = [].slice.call(document.querySelectorAll(".x-reveal"));
+        if (!reduce && "IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } });
+          }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+          items.forEach(function (el) { io.observe(el); });
+        } else {
+          items.forEach(function (el) { el.classList.add("is-in"); });
+        }
+
+        /* lightbox: shows a copy of the clicked image */
+        var dlg = document.getElementById("lightbox");
+        var stage = dlg.querySelector(".x-lightbox__stage");
+        var cap = dlg.querySelector(".x-lightbox__cap");
+        document.addEventListener("click", function (e) {
+          var b = e.target.closest(".x-piece button, .x-frame");
+          if (!b || !dlg.showModal) return;
+          var img = b.querySelector("img");
+          var old = stage.querySelector("img");
+          if (old) old.remove();
+          var copy = img.cloneNode(false);
+          copy.removeAttribute("loading");
+          stage.insertBefore(copy, cap);
+          cap.textContent = img.alt;
+          if (lenis) lenis.stop();
+          dlg.showModal();
+        });
+        dlg.querySelector(".x-lightbox__close").addEventListener("click", function () { dlg.close(); });
+        dlg.addEventListener("click", function (e) { if (e.target === dlg || e.target === stage) dlg.close(); });
+        dlg.addEventListener("close", function () { if (lenis) lenis.start(); });
+
+        /* every row of pieces: an infinite marquee that starts at once, pauses on hover, touch or keyboard focus,
+           and can still be swiped or dragged; directions alternate from row to row */
+        var rows = [].slice.call(document.querySelectorAll(".x-film__track, .x-scroller, .x-marquee"));
+        var loops = [];
+        rows.forEach(function (el, i) {
+          var L = { el: el, dir: i % 2 === 0 ? 1 : -1, speed: el.classList.contains("x-film__track") ? 56 : 48,
+            W: 0, pos: 0, hover: false, focus: false, touch: false, drag: null, suppress: false, tt: 0 };
+          var orig = [].slice.call(el.children);
+          L.orig = orig;
+          L.sets = 1;
+          L.addSet = function () {
+            var f = document.createDocumentFragment();
+            orig.forEach(function (n) {
+              var c = n.cloneNode(true);
+              c.setAttribute("aria-hidden", "true");
+              [].forEach.call(c.querySelectorAll("button"), function (b) { b.tabIndex = -1; });
+              if (c.tagName === "BUTTON") c.tabIndex = -1;
+              f.appendChild(c);
+            });
+            el.appendChild(f);
+            L.sets++;
+          };
+          L.measure = function () {
+            var first = orig[0], clone = el.children[orig.length];
+            if (!clone) return;
+            var w = clone.offsetLeft - first.offsetLeft;
+            if (w <= 0) return;
+            var n = 0;
+            while (L.sets * w < 2 * w + el.clientWidth + 200 && L.sets < 10) { L.addSet(); n++; }
+            var phase = L.W ? ((el.scrollLeft - L.W) % L.W + L.W) % L.W : 0;
+            L.W = w;
+            L.pos = w + phase;
+            el.scrollLeft = L.pos;
+          };
+
+          /* mouse drag; touch and trackpad scroll natively */
+          el.addEventListener("dragstart", function (e) { e.preventDefault(); });
+          el.addEventListener("pointerdown", function (e) {
+            if (e.pointerType !== "mouse" || e.button !== 0) return;
+            L.drag = { x: e.clientX, s: el.scrollLeft, moved: false };
+          });
+          window.addEventListener("pointermove", function (e) {
+            if (!L.drag) return;
+            var dx = e.clientX - L.drag.x;
+            if (!L.drag.moved && Math.abs(dx) > 5) { L.drag.moved = true; el.classList.add("x-dragging"); }
+            if (L.drag.moved) { el.scrollLeft = L.drag.s - dx; e.preventDefault(); }
+          });
+          window.addEventListener("pointerup", function () {
+            if (!L.drag) return;
+            if (L.drag.moved) { L.suppress = true; setTimeout(function () { L.suppress = false; }, 60); }
+            el.classList.remove("x-dragging");
+            L.drag = null;
+          });
+          el.addEventListener("click", function (e) {
+            if (L.suppress) { e.stopPropagation(); e.preventDefault(); L.suppress = false; }
+          }, true);
+          el.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") L.hover = true; });
+          el.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") L.hover = false; });
+          el.addEventListener("touchstart", function () { clearTimeout(L.tt); L.touch = true; }, { passive: true });
+          var untouch = function () { clearTimeout(L.tt); L.tt = setTimeout(function () { L.touch = false; }, 1400); };
+          el.addEventListener("touchend", untouch, { passive: true });
+          el.addEventListener("touchcancel", untouch, { passive: true });
+          el.addEventListener("focusin", function (e) { try { L.focus = e.target.matches(":focus-visible"); } catch (err) { L.focus = false; } });
+          el.addEventListener("focusout", function () { L.focus = false; });
+
+          if (!reduce && orig.length > 1) {
+            L.addSet();
+            L.measure();
+            loops.push(L);
+          }
+        });
+        var remeasure = function () { loops.forEach(function (L) { L.measure(); }); };
+        window.addEventListener("load", remeasure);
+        window.addEventListener("resize", remeasure);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+        var lastT = 0;
+        var tick = function (t) {
+          var dt = lastT ? Math.min(t - lastT, 50) : 0;
+          lastT = t;
+          loops.forEach(function (L) {
+            if (!L.W) return;
+            var el = L.el;
+            var run = !L.hover && !L.focus && !L.touch && !L.drag && !document.hidden && !dlg.open;
+            if (run) L.pos += L.dir * L.speed * dt / 1000;
+            else L.pos = el.scrollLeft;
+            if (L.touch) return;
+            var p = L.pos;
+            while (p >= 2 * L.W) p -= L.W;
+            while (p < L.W) p += L.W;
+            if (p !== L.pos || run) {
+              if (L.drag) L.drag.s += p - L.pos;
+              L.pos = p;
+              el.scrollLeft = p;
+            }
+          });
+          requestAnimationFrame(tick);
+        };
+        if (loops.length) requestAnimationFrame(tick);
+
+        /* desktop only: subtle magnetic buttons */
+        if (fine) {
+          [].forEach.call(document.querySelectorAll(".x-cta, .x-ghost"), function (el) {
+            el.addEventListener("mousemove", function (e) {
+              var r = el.getBoundingClientRect();
+              el.style.translate = ((e.clientX - r.left - r.width / 2) * 0.08).toFixed(1) + "px " + ((e.clientY - r.top - r.height / 2) * 0.12).toFixed(1) + "px";
+            });
+            el.addEventListener("mouseleave", function () { el.style.translate = ""; });
+          });
+        }
+
+        /* copy email with a COPIADO toast */
+        var toast = document.querySelector(".x-toast");
+        var toastTimer = 0;
+        var showToast = function (msg) {
+          toast.textContent = msg;
+          toast.classList.add("is-on");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function () { toast.classList.remove("is-on"); }, 1800);
+        };
+        [].forEach.call(document.querySelectorAll(".x-copy"), function (b) {
+          b.addEventListener("click", function () {
+            var text = b.getAttribute("data-copy");
+            var fallback = function () {
+              var ta = document.createElement("textarea");
+              ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+              document.body.appendChild(ta); ta.select();
+              var ok = false;
+              try { ok = document.execCommand("copy"); } catch (err) {}
+              ta.remove();
+              showToast(ok ? "COPIADO" : text);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(function () { showToast("COPIADO"); }, fallback);
+            } else { fallback(); }
+          });
+        });
+
+        window.xReady = true;
+      })();
+    </script>
+  </body>
+</html>
